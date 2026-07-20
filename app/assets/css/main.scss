@@ -1,0 +1,195 @@
+/* ---------------------------------------------------------------------------
+   Global design tokens + base styles
+   Fonts: Space Grotesk (display) · Manrope (body) · JetBrains Mono (code)
+--------------------------------------------------------------------------- */
+
+:root {
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Theme tokens — Vuetify stamps .v-theme--dark / .v-theme--light on v-app */
+.v-theme--dark {
+  --bg: #0a0a0b;
+  --bg-soft: #0f0f11;
+  --bg-card: #141416;
+  --text-1: #ededed;
+  --text-2: #b7b7be;
+  --text-3: #8f8f96;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --accent: #c6f32e;
+  --accent-fill: #c6f32e;
+  --on-accent: #0a0a0b;
+  --accent-soft: rgba(198, 243, 46, 0.12);
+  --accent-glow: rgba(198, 243, 46, 0.5);
+  --grid-line: rgba(255, 255, 255, 0.025);
+  --halo-a: rgba(198, 243, 46, 0.1);
+  --halo-b: rgba(120, 110, 255, 0.06);
+  --nav-bg: rgba(10, 10, 11, 0.55);
+  --nav-bg-scrolled: rgba(14, 14, 16, 0.82);
+  --shadow-card: 0 24px 55px -26px rgba(198, 243, 46, 0.28);
+}
+
+.v-theme--light {
+  --bg: #f6f6f1;
+  --bg-soft: #ffffff;
+  --bg-card: #ffffff;
+  --text-1: #181811;
+  --text-2: #4c4c44;
+  --text-3: #73736a;
+  --line: rgba(24, 24, 12, 0.1);
+  --line-strong: rgba(24, 24, 12, 0.2);
+  --accent: #4f7a00;
+  --accent-fill: #c6f32e;
+  --on-accent: #161d02;
+  --accent-soft: rgba(111, 163, 15, 0.14);
+  --accent-glow: rgba(130, 175, 30, 0.4);
+  --grid-line: rgba(20, 20, 10, 0.035);
+  --halo-a: rgba(170, 220, 60, 0.16);
+  --halo-b: rgba(120, 110, 255, 0.07);
+  --nav-bg: rgba(246, 246, 241, 0.6);
+  --nav-bg-scrolled: rgba(255, 255, 255, 0.82);
+  --shadow-card: 0 24px 55px -26px rgba(90, 130, 10, 0.25);
+}
+
+/* Scrollbar theme tokens — the theme class lives on v-app inside <body>,
+   so the page scrollbar (on <html>) is themed via :has() overrides. */
+:root {
+  --sb-track: #0a0a0b;
+  --sb-thumb: #2c2c31;
+  --sb-thumb-hover: #c6f32e;
+}
+
+:root:has(.v-theme--light) {
+  --sb-track: #f6f6f1;
+  --sb-thumb: #c9c9bf;
+  --sb-thumb-hover: #4f7a00;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+/* Firefox (no ::-webkit-scrollbar support) */
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sb-thumb) var(--sb-track);
+  }
+}
+
+/* Chromium / Safari — main page scrollbar */
+html::-webkit-scrollbar {
+  width: 11px;
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--sb-track);
+}
+
+html::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb);
+  border-radius: 8px;
+  border: 3px solid var(--sb-track);
+  transition: background 0.2s ease;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: var(--sb-thumb-hover);
+}
+
+/* Inner scrollable areas (code blocks, tables) — neutral thumb that
+   reads fine on both light surfaces and the always-dark code cards */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 136, 0.4);
+  border-radius: 8px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 128, 136, 0.65);
+}
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent-fill, #c6f32e);
+  color: var(--on-accent, #0a0a0b);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Section shell shared by every section */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(64px, 9vw, 120px) clamp(20px, 5vw, 32px);
+}
+
+/* Reveal-on-scroll elements start visible (no-JS / SSR safe);
+   GSAP hides + animates them on the client. */
+[data-reveal] {
+  will-change: opacity, transform;
+}
+
+/* Accessible skip link */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 100;
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: var(--accent-fill);
+  color: var(--on-accent);
+  font-weight: 700;
+  transition: top 0.2s ease;
+
+  &:focus {
+    top: 16px;
+  }
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
