@@ -8,8 +8,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      // TODO: replace with the real production domain once deployed
-      siteUrl: 'https://mohamedosama.dev',
+      siteUrl: 'https://portfolio-mohamed-osama.vercel.app',
     },
   },
 
