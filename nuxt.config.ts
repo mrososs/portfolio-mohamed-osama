@@ -87,7 +87,9 @@ export default defineNuxtConfig({
 
   nitro: {
     prerender: {
-      routes: ['/'],
+      // Case-study pages are discovered by crawling links from these routes.
+      routes: ['/', '/world'],
+      crawlLinks: true,
     },
   },
 })

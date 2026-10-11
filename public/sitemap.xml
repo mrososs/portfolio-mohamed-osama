@@ -5,4 +5,16 @@
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://portfolio-mohamed-osama.vercel.app/world</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url><loc>https://portfolio-mohamed-osama.vercel.app/projects/virtual-office</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-mohamed-osama.vercel.app/projects/pockit</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-mohamed-osama.vercel.app/projects/daycare-platform</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-mohamed-osama.vercel.app/projects/shared-ui-library</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-mohamed-osama.vercel.app/projects/medreminder</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-mohamed-osama.vercel.app/projects/hospitality-landing</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-mohamed-osama.vercel.app/projects/project-management-platform</loc><priority>0.7</priority></url>
 </urlset>

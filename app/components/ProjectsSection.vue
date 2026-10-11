@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { mdiArrowRight, mdiArrowTopRight, mdiGithub, mdiOpenInNew } from '@mdi/js'
 
-const { openSource, projects, githubProjects, profile } = usePortfolio()
+const { openSource, publishedProjects: projects, githubProjects, profile } = usePortfolio()
 </script>
 
 <template>
@@ -92,7 +92,9 @@ const { openSource, projects, githubProjects, profile } = usePortfolio()
             />
           </div>
         </div>
-        <h3 class="project-card__title">{{ project.title }}</h3>
+        <h3 class="project-card__title">
+          <NuxtLink :to="`/projects/${project.slug}`" class="project-card__title-link">{{ project.title }}</NuxtLink>
+        </h3>
         <p class="project-card__subtitle font-mono">{{ project.subtitle }}</p>
         <p class="project-card__desc">{{ project.description }}</p>
         <div class="project-card__tags">
@@ -328,6 +330,16 @@ const { openSource, projects, githubProjects, profile } = usePortfolio()
   font-size: 1.4rem;
   font-weight: 600;
   color: var(--text-1);
+}
+
+.project-card__title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-card__title-link:hover,
+.project-card__title-link:focus-visible {
+  color: var(--accent);
 }
 
 .project-card__subtitle {

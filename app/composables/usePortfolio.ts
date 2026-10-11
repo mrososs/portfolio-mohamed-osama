@@ -19,7 +19,21 @@ export interface ExperienceEntry {
   highlights: string[]
 }
 
+/** Lifecycle of a project, shown honestly in both Quick View and the Dev World. */
+export type ProjectStatus = 'shipped' | 'demo' | 'in-progress' | 'draft'
+
+/** Which interactive display represents a project inside the Dev World's Projects Hall. */
+export type WorldDisplay = 'workstation' | 'kiosk' | 'phone' | 'id-terminal'
+
+export interface ProjectMedia {
+  type: 'image' | 'video'
+  src: string
+  alt: string
+}
+
 export interface Project {
+  /** URL-safe id — used by /projects/[slug] and /world?project=[slug]. */
+  slug: string
   category: string
   title: string
   subtitle: string
@@ -27,6 +41,25 @@ export interface Project {
   tags: string[]
   repoUrl?: string
   liveUrl?: string
+  /** Defaults to 'shipped'. Drafts are hidden from Quick View and have no case-study page. */
+  status?: ProjectStatus
+  statusNote?: string
+  problem?: string
+  role?: string
+  features?: string[]
+  stack?: string[]
+  media?: ProjectMedia[]
+  /** Placement in the Dev World's Projects Hall (slot 0–3). */
+  world?: { display: WorldDisplay; slot: number }
+}
+
+/** A Skills Workshop station — a group of capabilities linked to real projects. */
+export interface Capability {
+  id: 'frontend' | 'architecture' | 'mobile' | 'backend' | 'creative'
+  title: string
+  summary: string
+  items: string[]
+  projectSlugs: string[]
 }
 
 export interface GithubRepo {
@@ -178,7 +211,78 @@ const openSource = {
 
 const projects: Project[] = [
   {
+    slug: 'virtual-office',
+    category: 'REAL-TIME · GAME TECH',
+    title: 'iSaned Virtual Office',
+    subtitle: 'Real-time 2D office for remote teams',
+    description:
+      'A real-time 2D virtual office for remote software teams — avatars, desks, rooms and meetings, with activity informed by Azure DevOps, Microsoft Teams and Microsoft 365 Calendar.',
+    tags: ['Vue 3', 'Phaser', 'NestJS', 'Socket.IO'],
+    repoUrl: 'https://github.com/mrososs/virtual-office',
+    status: 'demo',
+    statusNote:
+      'Functional demo on seeded data and a scripted timeline. The Microsoft / Azure integrations exist as service stubs and are not implemented yet.',
+    problem:
+      'Remote teams lose the at-a-glance sense of who is around, who is in a meeting and where to find people. The Virtual Office turns presence, desks, rooms and meetings into one navigable space.',
+    features: [
+      'Polished demo office — 11 rooms, 16 desks and 12 people on seeded data',
+      'Real Socket.IO multiplayer between browser tabs',
+      'Walk with WASD, interact with E, click to select people, rooms and desks',
+      'Typed Vue ↔ Phaser GameBridge — Vue owns the app shell, Phaser owns only the world',
+      'Shared domain types and realtime contract in one workspace package',
+      'Characters, furniture and floors drawn in code — no third-party sprites',
+    ],
+    stack: ['Vue 3', 'TypeScript', 'Vite', 'Pinia', 'Phaser 3', 'Tailwind', 'NestJS', 'Socket.IO', 'Supabase (PostgreSQL)'],
+    world: { display: 'workstation', slot: 0 },
+  },
+  {
+    // TODO(content): add the real description, stack, links and media.
+    slug: 'golden-future-travels',
+    category: 'CASE STUDY IN PREPARATION',
+    title: 'Golden Future Travels',
+    subtitle: 'Details coming soon',
+    description: '',
+    tags: [],
+    status: 'draft',
+    world: { display: 'kiosk', slot: 1 },
+  },
+  {
+    slug: 'pockit',
+    category: 'MOBILE · NATIVE',
+    title: 'Pockit Mobile App',
+    subtitle: 'Personal document vault for iOS & Android',
+    description:
+      'A personal document vault for your phone: keep the files and images that matter — IDs, certificates, receipts, important photos — organised and one tap away, instead of buried in the gallery.',
+    tags: ['Angular Native', 'Expo', 'TypeScript'],
+    repoUrl: 'https://github.com/mrososs/pockit-ng-native-angular',
+    status: 'in-progress',
+    statusNote:
+      'Early stage — the design system, navigation shell, Home and Collections screens exist; documents and search are on the roadmap.',
+    problem:
+      'Important documents end up buried in the photo gallery. Pockit keeps them organised in collections — local-first, with no backend.',
+    features: [
+      'Angular components rendered as real native iOS and Android views (Angular Native inside Expo)',
+      'Local-first — no backend, documents stay on the device',
+      'Custom Pockit design system with a generated stylesheet',
+      'Navigation shell with Home, Collections and collection screens',
+    ],
+    stack: ['Angular Native', 'Angular', 'Expo', 'TypeScript'],
+    world: { display: 'phone', slot: 2 },
+  },
+  {
+    // TODO(content): add the real description, stack, links and media.
+    slug: 'digital-qr-profiles',
+    category: 'CASE STUDY IN PREPARATION',
+    title: 'Digital QR Profiles',
+    subtitle: 'Details coming soon',
+    description: '',
+    tags: [],
+    status: 'draft',
+    world: { display: 'id-terminal', slot: 3 },
+  },
+  {
     category: 'GOV · ENTERPRISE',
+    slug: 'daycare-platform',
     title: 'Daycare Platform',
     subtitle: 'Saudi Arabia Ministry Platform',
     description:
@@ -187,6 +291,7 @@ const projects: Project[] = [
   },
   {
     category: 'DESIGN SYSTEM',
+    slug: 'shared-ui-library',
     title: 'Shared UI Component Library',
     subtitle: 'Internal Angular library',
     description:
@@ -195,6 +300,7 @@ const projects: Project[] = [
   },
   {
     category: 'MOBILE',
+    slug: 'medreminder',
     title: 'MedReminder',
     subtitle: 'Cross-platform mobile app',
     description:
@@ -204,6 +310,7 @@ const projects: Project[] = [
   },
   {
     category: 'MARKETING · SEO',
+    slug: 'hospitality-landing',
     title: 'Hospitality Landing Page',
     subtitle: 'Vue 3 · multi-property',
     description:
@@ -214,6 +321,7 @@ const projects: Project[] = [
   },
   {
     category: 'LEADERSHIP',
+    slug: 'project-management-platform',
     title: 'Project Management Platform',
     subtitle: 'Frontend Team Lead',
     description:
@@ -221,6 +329,49 @@ const projects: Project[] = [
     tags: ['Angular', 'Material', 'GitFlow'],
     repoUrl: 'https://github.com/mrososs/ProjectManagment',
     liveUrl: 'https://project-managment-lemon.vercel.app',
+  },
+]
+
+const capabilities: Capability[] = [
+  {
+    id: 'frontend',
+    title: 'Frontend Engineering',
+    summary:
+      'Large Angular apps that stay fast and maintainable as teams grow — reactive state with RxJS & Signals, OnPush performance tuning and accessible, standards-compliant UI — plus Vue 3 / Nuxt for SSR, SEO-friendly products.',
+    items: ['Angular', 'RxJS', 'Signals', 'Angular Material', 'Vue 3', 'Nuxt', 'TypeScript', 'Tailwind', 'SCSS'],
+    projectSlugs: ['daycare-platform', 'hospitality-landing', 'project-management-platform'],
+  },
+  {
+    id: 'architecture',
+    title: 'Architecture & System Design',
+    summary:
+      'Micro-frontend platforms composed at runtime with Native Federation, shared component libraries consumed across apps, Nx monorepos and multi-tenant SaaS — isolated, branded environments on one shared codebase.',
+    items: ['Micro-frontends', 'Native Federation', 'Nx Monorepos', 'Component Libraries', 'Multi-tenant SaaS', 'PWA'],
+    projectSlugs: ['shared-ui-library', 'virtual-office'],
+  },
+  {
+    id: 'mobile',
+    title: 'Cross-platform Mobile',
+    summary:
+      'One codebase for iOS, Android and web. Native-feeling apps with Ionic & Capacitor — native notifications, smooth navigation, offline-ready storage — and real native views with Angular Native.',
+    items: ['Ionic', 'Capacitor', 'Angular Native', 'Expo', 'PWA'],
+    projectSlugs: ['medreminder', 'pockit'],
+  },
+  {
+    id: 'backend',
+    title: 'Backend & Real-time',
+    summary:
+      'REST and async data flows integrated hand-in-hand with backend teams, plus hands-on backends with Supabase, Postgres, Firebase and NestJS — including Socket.IO multiplayer.',
+    items: ['REST APIs', 'NestJS', 'Socket.IO', 'Supabase', 'Postgres', 'Firebase'],
+    projectSlugs: ['virtual-office'],
+  },
+  {
+    id: 'creative',
+    title: 'Game & Creative Development',
+    summary:
+      'Interactive 2D worlds with Phaser — like the Virtual Office and this Dev World — backed by a designer background in UI/UX, prototyping and visual design.',
+    items: ['Phaser', 'Canvas rendering', 'GSAP', 'Figma', 'Adobe XD', 'UI/UX prototyping'],
+    projectSlugs: ['virtual-office'],
   },
 ]
 
@@ -297,6 +448,27 @@ const navLinks = [
   { label: 'AI', href: '#ai' },
 ]
 
+/** Projects shown in Quick View and given a case-study page (drafts excluded). */
+const publishedProjects = projects.filter((p) => p.status !== 'draft')
+
+function findProject(slug: string): Project | undefined {
+  return projects.find((p) => p.slug === slug)
+}
+
 export function usePortfolio() {
-  return { profile, stats, services, stack, experience, openSource, projects, githubProjects, aiWorkflows, navLinks }
+  return {
+    profile,
+    stats,
+    services,
+    stack,
+    experience,
+    openSource,
+    projects,
+    publishedProjects,
+    findProject,
+    capabilities,
+    githubProjects,
+    aiWorkflows,
+    navLinks,
+  }
 }
