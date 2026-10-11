@@ -10,6 +10,7 @@ Personal portfolio for Mohamed Osama, Senior Frontend Developer. Built with **Nu
 - **Nuxt 4** — SSR + prerendering for SEO
 - **Vuetify 3** (`vuetify-nuxt-module`) — buttons, cards, chips, timeline, transitions, theming
 - **GSAP + ScrollTrigger** — hero intro timeline, scroll reveals, stat count-up
+- **Phaser 3** — *Mohamed's Dev World* at `/world`, lazy-loaded so Quick View never ships it
 - **SCSS design tokens** — one token set per theme (`app/assets/css/main.scss`)
 
 ## Commands
@@ -33,6 +34,8 @@ npm run preview   # preview the production build
 | Scroll reveal animation | `app/composables/useScrollReveal.ts` (add `data-reveal` + optional `data-delay` to any element) |
 | SEO meta + JSON-LD | `app/pages/index.vue` |
 | Section components | `app/components/` |
+| Case-study pages (`/projects/[slug]`) | `app/pages/projects/[slug].vue` + `app/components/ProjectDetail.vue` |
+| Interactive Dev World (`/world`, Phaser) | `app/pages/world.vue`, `app/components/world/`, `app/game/` — see [docs/DEV_WORLD.md](docs/DEV_WORLD.md) |
 
 ## Deployment
 
