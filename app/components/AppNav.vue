@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { useDisplay } from 'vuetify'
-import { mdiClose, mdiMenu } from '@mdi/js'
+import { mdiClose, mdiGamepadVariantOutline, mdiMenu } from '@mdi/js'
 
 const { profile, navLinks } = usePortfolio()
 const { mdAndUp } = useDisplay()
+const route = useRoute()
+
+// Section anchors live on the home page; prefix them when rendered elsewhere.
+const anchor = (hash: string) => (route.path === '/' ? hash : `/${hash}`)
 
 const scrolled = shallowRef(false)
 const menuOpen = shallowRef(false)
@@ -42,17 +46,21 @@ function closeMenu() {
     />
 
     <nav aria-label="Primary" class="app-nav__bar" :class="{ 'app-nav__bar--scrolled': scrolled }">
-      <a href="#top" class="app-nav__brand" aria-label="Mohamed Osama — home">
+      <a :href="anchor('#top')" class="app-nav__brand" aria-label="Mohamed Osama — home">
         <span class="app-nav__mark font-mono">M</span>
         <span class="app-nav__name">{{ profile.name }}</span>
       </a>
 
       <div v-if="mdAndUp" class="app-nav__links">
-        <a v-for="link in navLinks" :key="link.href" :href="link.href" class="app-nav__link">
+        <a v-for="link in navLinks" :key="link.href" :href="anchor(link.href)" class="app-nav__link">
           {{ link.label }}
         </a>
+        <NuxtLink to="/world" class="app-nav__link app-nav__world">
+          <v-icon :icon="mdiGamepadVariantOutline" size="18" aria-hidden="true" />
+          Explore World
+        </NuxtLink>
         <ThemeToggle />
-        <v-btn href="#contact" color="primary" class="app-nav__cta" size="default">
+        <v-btn :href="anchor('#contact')" color="primary" class="app-nav__cta" size="default">
           Let's talk
         </v-btn>
       </div>
@@ -76,13 +84,17 @@ function closeMenu() {
         <a
           v-for="link in navLinks"
           :key="link.href"
-          :href="link.href"
+          :href="anchor(link.href)"
           class="app-nav__sheet-link"
           @click="closeMenu"
         >
           {{ link.label }}
         </a>
-        <v-btn href="#contact" color="primary" block size="large" class="mt-3" @click="closeMenu">
+        <NuxtLink to="/world" class="app-nav__sheet-link app-nav__world" @click="closeMenu">
+          <v-icon :icon="mdiGamepadVariantOutline" size="18" aria-hidden="true" />
+          Explore World
+        </NuxtLink>
+        <v-btn :href="anchor('#contact')" color="primary" block size="large" class="mt-3" @click="closeMenu">
           Let's talk
         </v-btn>
       </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { gsap as Gsap } from 'gsap'
-import { mdiArrowRight, mdiEmailOutline, mdiGithub, mdiLinkedin } from '@mdi/js'
+import { mdiArrowRight, mdiEmailOutline, mdiGamepadVariantOutline, mdiGithub, mdiLinkedin } from '@mdi/js'
 
 const { profile, stats } = usePortfolio()
 
@@ -118,6 +118,18 @@ onUnmounted(() => {
           <div class="hero__anim-item">
             <v-btn href="#projects" variant="outlined" size="large" class="hero__cta-alt">
               View my work
+            </v-btn>
+          </div>
+          <div class="hero__anim-item">
+            <v-btn
+              to="/world"
+              variant="text"
+              size="large"
+              class="hero__cta-world"
+              :prepend-icon="mdiGamepadVariantOutline"
+              title="Don't just view my portfolio. Explore it."
+            >
+              Explore my world
             </v-btn>
           </div>
         </div>
@@ -345,6 +357,10 @@ onUnmounted(() => {
 
 .hero__cta-alt:hover {
   border-color: var(--accent);
+  color: var(--accent);
+}
+
+.hero__cta-world {
   color: var(--accent);
 }
 

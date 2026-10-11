@@ -3,6 +3,8 @@ import type { gsap as Gsap } from 'gsap'
 
 useSiteTheme()
 
+const route = useRoute()
+
 const nuxtApp = useNuxtApp()
 const haloRef = useTemplateRef<HTMLElement>('halo')
 const gridRef = useTemplateRef<HTMLElement>('grid')
@@ -40,7 +42,7 @@ onUnmounted(() => {
     <div id="top" class="app-shell">
       <div ref="halo" class="app-shell__halo" aria-hidden="true" />
       <div ref="grid" class="app-shell__grid" aria-hidden="true" />
-      <AppNav />
+      <AppNav v-if="!route.meta.immersive" />
       <v-main id="main">
         <NuxtPage />
       </v-main>
